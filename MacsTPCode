@@ -1,0 +1,51 @@
+import os, re, json
+
+class TextProcessor(object):
+  def __init__(self, path):
+    self.word_dict = {}
+    print(self.process_file(path))
+
+  def process_file(self, path):
+    self.word_dict = {}
+    try:
+      open(path, "r")
+    except FileNotFoundError as e:
+      return path + " not found"
+    with open(path, "r") as ins:
+        for line in ins:
+          for word in line.split(' '):
+            w = re.sub(r'\W+', '', word).lower()
+            if w in self.word_dict.keys():
+              self.word_dict[w] = self.word_dict[w] + 1
+            else:
+              self.word_dict[w] = 1
+    return self.word_dict
+
+  def count_this_word(self,word):
+    if word in self.word_dict.keys():
+      return self.word_dict[word]
+    else:
+      return 0
+
+  def get_words_having_count(self,num):
+   ret_lst = []
+   for word, count in self.word_dict.items():
+         if num == count:
+            ret_lst.append(word)
+            return ret_lst
+
+  def get_word_count(self):
+    count = 0
+    for word, i in self.word_dict.items():
+      count = i + count
+      return count
+
+def get_unique_word_count(self):
+    return len(self.word_dict)
+
+def save_counts(self, f):
+    with open(f, 'w') as outfile:
+      json.dump(self.word_dict, outfile)
+
+
+tp = TextProcessor(os.path.expanduser(r'/Users/melinda/Downloads/book.txt'))
